@@ -1,4 +1,13 @@
+import Curve from "./curve";
 import * as THREE from 'three';  
+import CurveControl from "./curve-control";
+
+const curveControl = new CurveControl([1, 10], "t", "t^2", "t^3");
+
+curveControl.evaluate();
+
+
+/* 
 
 var camera, scene, renderer;
 var geometry, material, mesh;
@@ -34,4 +43,4 @@ function animate() {
 
 	renderer.render( scene, camera );
 
-}
+} */

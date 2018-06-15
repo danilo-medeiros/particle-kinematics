@@ -16,6 +16,7 @@
     "webpack-cli": "^3.0.3"
   },
   "dependencies": {
+    "mathjs": "^4.4.2",
     "three": "^0.93.0"
   }
 }

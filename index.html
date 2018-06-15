@@ -1,13 +1,50 @@
 <!DOCTYPE html>
+
 <head>
     <meta charset="utf-8">
     <title>Particle cinematics</title>
+    <!-- Latest compiled and minified CSS -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="assets/style.css">
 </head>
+
 <body>
+    <div class='container'>
+        <h3>Cinemática de partícula no R3</h3>
+        <div class='row'>
+            <div class='col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center'>
+                <p>\(\overrightarrow{f}(t)=(x(t),y(t),z(t))\)</p>
+            </div>
+            <div class='col-md-6'>
+                <div>
+                    <form action="">
+                        <div class='form-group form-inline'>
+                            <label for="">\(x(t) =\) </label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class='form-group form-inline'>
+                            <label for="">\(y(t) =\) </label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class='form-group form-inline'>
+                            <label for="">\(z(t) =\) </label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class='form-group'>
+                            <button class='btn btn-primary'>Gerar gráfico</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div style="width: 800px; height: 300px" id="main-div">
-        
+
     </div>
 </body>
 <script src="dist/bundle.js"></script>
+
+
 </html>
