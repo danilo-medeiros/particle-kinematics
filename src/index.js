@@ -2,10 +2,21 @@ import Curve from "./curve";
 import * as THREE from 'three';  
 import CurveControl from "./curve-control";
 
-const curveControl = new CurveControl([1, 10], "t", "t^2", "t^3");
+const minDomainInput = document.getElementById("minDomain");
+const maxDomainInput = document.getElementById("maxDomain");
+const fxInput = document.getElementById("fx");
+const fyInput = document.getElementById("fy");
+const fzInput = document.getElementById("fz");
+const mainForm = document.getElementById("mainForm");
+let curveControl;
 
-curveControl.evaluate();
-
+mainForm.addEventListener("submit", function(event) {
+	event.preventDefault();
+	curveControl = new CurveControl(
+		[parseInt(minDomainInput.value), parseInt(maxDomainInput.value)], 
+		fxInput.value, fyInput.value, fzInput.value);
+	curveControl.evaluate();
+});
 
 /* 
 

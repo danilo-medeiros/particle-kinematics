@@ -1,48 +1,84 @@
 <!DOCTYPE html>
 
 <head>
-    <meta charset="utf-8">
-    <title>Particle cinematics</title>
-    <!-- Latest compiled and minified CSS -->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-        crossorigin="anonymous">
-    <link rel="stylesheet" href="assets/style.css">
+  <meta charset="utf-8">
+  <meta content="width=device-width,initial-scale=1" name="viewport">
+  <title>Particle cinematics</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="assets/style.css">
 </head>
 
 <body>
-    <div class='container'>
-        <h3>Cinemática de partícula no R3</h3>
-        <div class='row'>
-            <div class='col-md-12 col-lg-12 col-sm-12 col-xs-12 text-center'>
-                <p>\(\overrightarrow{f}(t)=(x(t),y(t),z(t))\)</p>
-            </div>
-            <div class='col-md-6'>
-                <div>
-                    <form action="">
-                        <div class='form-group form-inline'>
-                            <label for="">\(x(t) =\) </label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <div class='form-group form-inline'>
-                            <label for="">\(y(t) =\) </label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <div class='form-group form-inline'>
-                            <label for="">\(z(t) =\) </label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <div class='form-group'>
-                            <button class='btn btn-primary'>Gerar gráfico</button>
-                        </div>
-                    </form>
+  <div class='container'>
+    <h3>Cinemática de partícula no R3</h3>
+    <div class='row'>
+      <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+        <p></p>
+      </div>
+      <div class='col-md-4 col-md-offset-1 col-xs-12 col-lg-4 col-lg-offset-1 col-sm-5'>
+        <form id="mainForm" class="text-center" autocomplete="off">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+                <label for="">Domínio:</label>
+              </div>
+              <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6" style="padding-right: 2px;">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <b>De: </b>
+                  </span>
+                  <input type="number" value="-10" class="form-control" id="minDomain">
                 </div>
+              </div>
+              <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6" style="padding-left: 2px;">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <b>Até: </b>
+                  </span>
+                  <input type="number" value="10" class="form-control" id="maxDomain">
+                </div>
+              </div>
             </div>
-        </div>
+          </div>
+          <div class="form-group text-center">
+            <p>\(\overrightarrow{f}(t)=(x(t),y(t),z(t))\):</p>
+          </div>
+          <div class='form-group'>
+            <div class="input-group">
+              <span class="input-group-addon">
+                \(x(t) =\)
+              </span>
+              <input type="text" value="sin(t)" autocomplete="off" id="fx" class="form-control">
+            </div>
+          </div>
+          <div class='form-group'>
+            <div class="input-group">
+              <span class="input-group-addon">
+                \(y(t) =\)
+              </span>
+              <input type="text" value="cos(t)" autocomplete="off" id="fy" class="form-control">
+            </div>
+          </div>
+          <div class='form-group'>
+            <div class="input-group">
+              <span class="input-group-addon">
+                \(z(t) =\)
+              </span>
+              <input type="text" value="t" autocomplete="off" id="fz" class="form-control">
+            </div>
+          </div>
+          <div class='form-group'>
+            <button type="submit" class='btn btn-primary btn-block'>Gerar gráfico</button>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-7 col-xs-12 col-lg-7 col-sm-7">
+        <div class="graph-div" id="firstGraphDiv"></div>
+      </div>
     </div>
-    <div style="width: 800px; height: 300px" id="main-div">
-
-    </div>
+  </div>
 </body>
 <script src="dist/bundle.js"></script>
 

@@ -19,6 +19,8 @@ export default class CurveControl {
         let unitNormal = unitTangent.map(t => t / unitTangentModule);
         let unitBinormal = Mathjs.cross(unitTangent, unitNormal);
         
+        console.log(position.toString());
+
         if (this.continue && t < this.domain[1])
             setTimeout(() => {
                 this.evaluate(delay, t+1);
