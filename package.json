@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "mathjs": "^4.4.2",
-    "three": "^0.93.0"
+    "three": "^0.93.0",
+    "three-orbit-controls": "^82.1.0"
   }
 }

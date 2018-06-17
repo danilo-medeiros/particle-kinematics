@@ -6,5 +6,6 @@
 .graph-div {
     height: 500px;
     width: 100%;
+    margin: 0px auto;
     border: 1px solid #CCC;
 }
