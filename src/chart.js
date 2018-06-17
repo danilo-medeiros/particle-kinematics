@@ -14,12 +14,17 @@ export default class Chart {
 
 
     init(config) {
+
         this.config = Object.assign(this.config, config);
+
+        // CAMERA SETTINGS
         this.camera = new THREE.PerspectiveCamera(45,
             this.config.targetDiv.offsetWidth / this.config.targetDiv.offsetHeight, 1, 500);
         this.camera.position.set(5, 2, 5);
         this.camera.zoom = 2;
         this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+        // SCENE SETTINGS
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color(0xcdccfd);
 
@@ -27,49 +32,63 @@ export default class Chart {
         // CONTROLS SETTINGS
         this.controls = new OrbitControls(this.camera, this.config.targetDiv);
         this.controls.rotateSpeed = 2;
+        this.controls.enableKeys = false;
 
-
-        this.renderer = new THREE.WebGLRenderer({antialias: true});
+        // RENDERER SETTINGS
+        this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.renderer.setSize(this.config.targetDiv.offsetWidth, this.config.targetDiv.offsetHeight);
+
+        this.defaultMaterial = new THREE.LineBasicMaterial({ color: 0x000, linewidth: 2 });
 
         this.config.targetDiv.appendChild(this.renderer.domElement);
         this.createR3();
+        this.animate();
+    }
+
+    drawLine(material, initial, final, name) {
+        let geometry = new THREE.BufferGeometry();
+        let vertices = new Float32Array(initial.concat(final));
+        geometry.addAttribute("position", new THREE.BufferAttribute(vertices, 3));
+        let line = new THREE.Line(geometry, material);
+        line.name = name;
+        this.scene.add(line);
+    }
+
+    clear(name) {
+        let selectedObject = this.scene.getObjectByName(name);
+        while (selectedObject !== undefined) {
+            this.scene.remove(selectedObject);
+            selectedObject = this.scene.getObjectByName(name);
+        }
     }
 
     createR3() {
-        
-        let material = new THREE.LineBasicMaterial({ color: 0x0000ff, linewidth: 1 });
-        
-        let mainMaterial = new THREE.LineBasicMaterial({ color: 0xff0000, linewidth: 2 });
+
+        let material = new THREE.LineBasicMaterial({ color: 0x666666, linewidth: 1 });
+
+        let xMaterial = new THREE.LineBasicMaterial({color: 0xff0000, linewidth: 3});
+        let yMaterial = new THREE.LineBasicMaterial({color: 0x00ff00, linewidth: 3});
+        let zMaterial = new THREE.LineBasicMaterial({color: 0x002db3, linewidth: 3});
 
         for (let i = -1 * this.config.size; i <= this.config.size; i++) {
-            let geometryX = new THREE.BufferGeometry();
-            let geometryY = new THREE.BufferGeometry();
-            let lineXVertices = new Float32Array([
-                -1 * this.config.size * this.config.scale, 0.0, i * this.config.scale,
-                this.config.size * this.config.scale, 0.0, i* this.config.scale
-            ]);
 
-            let lineYVertices = new Float32Array([
-                i * this.config.scale, 0.0, -1 * this.config.size * this.config.scale,
-                i* this.config.scale, 0.0, this.config.size * this.config.scale
-            ]);
-            geometryX.addAttribute( 'position', new THREE.BufferAttribute( lineXVertices, 3 ) );
-            geometryY.addAttribute( 'position', new THREE.BufferAttribute( lineYVertices, 3 ) );
-            let lineX = new THREE.Line( geometryX, i === 0 ? mainMaterial : material );
-            let lineY = new THREE.Line( geometryY, i === 0 ? mainMaterial : material );
-            this.scene.add(lineX);
-            this.scene.add(lineY);
+            this.drawLine(material,
+                [-1 * this.config.size * this.config.scale, 0.0, i * this.config.scale],
+                [this.config.size * this.config.scale, 0.0, i * this.config.scale]
+            );
+
+            this.drawLine(material,
+                [i * this.config.scale, 0.0, -1 * this.config.size * this.config.scale],
+                [i * this.config.scale, 0.0, this.config.size * this.config.scale]
+            );
+
+            if (i === 0) {
+                this.drawLine(xMaterial, [0, 0, 0], [this.config.size * this.config.scale, 0.0, i * this.config.scale]);
+                this.drawLine(zMaterial, [0, 0, 0], [i * this.config.scale, 0.0, this.config.size * this.config.scale]);
+            }
         }
 
-        let geometryZ = new THREE.BufferGeometry();
-        let lineZVertices = new Float32Array([
-            0.0, 0.0, 0.0,
-            0.0, this.config.scale * this.config.size, 0.0
-        ]);
-        geometryZ.addAttribute( 'position', new THREE.BufferAttribute( lineZVertices, 3 ) );
-        let lineZ = new THREE.Line( geometryZ, mainMaterial );
-        this.scene.add(lineZ);
+        this.drawLine(yMaterial, [0.0, 0.0, 0.0], [0.0, this.config.scale * this.config.size, 0.0]);
     }
 
     animate() {
