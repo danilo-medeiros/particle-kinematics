@@ -3,6 +3,11 @@
     padding: 0;
 }
 
+.graph-controls {
+    padding: 5px;
+    background: #404040;
+}
+
 .graph-div {
     height: 500px;
     width: 100%;

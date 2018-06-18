@@ -54,6 +54,19 @@ export default class Chart {
         this.scene.add(line);
     }
 
+    drawVector(color, initial, final, name) {
+        let dir = new THREE.Vector3(final[0], final[1], final[2]);
+        dir.normalize();
+
+        let origin = new THREE.Vector3(initial[0], initial[1], initial[2]);
+        
+        let arrow = new THREE.ArrowHelper(dir, origin, 1, color);
+        //let line = new THREE.Line(undefined, new THREE.LineBasicMaterial({color: color, linewidth: 3}));
+        arrow.name = name;
+        //arrow.line = line;
+        this.scene.add(arrow);
+    }
+
     clear(name) {
         let selectedObject = this.scene.getObjectByName(name);
         while (selectedObject !== undefined) {
