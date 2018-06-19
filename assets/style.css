@@ -3,6 +3,11 @@
     padding: 0;
 }
 
+.main-nav {
+    display: flex;
+    padding-bottom: 10px;
+}
+
 .graph-controls {
     padding: 5px;
     background: #404040;
@@ -13,4 +18,21 @@
     width: 100%;
     margin: 0px auto;
     border: 1px solid #CCC;
+}
+
+.with-indentation {
+    text-indent: 3em;
+}
+
+.description {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px 0px;
+}
+
+.tab-content {
+    padding: 20px 0px;
+    
 }

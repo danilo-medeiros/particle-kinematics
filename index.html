@@ -7,17 +7,32 @@
   <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
     crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 
 <body>
   <div class='container'>
-    <h3>Cinemática de partícula no R3</h3>
+    <h3>Mecânica de uma partícula no \(R^3\)</h3>
+
     <div class='row'>
       <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
-        <p></p>
+        <p class='with-indentation'>Seja \(\overrightarrow{r}(t)=(x(t),y(t),z(t))\) a equação de movimento de uma partícula no espaço \(R^3\), onde:
+        </p>
+        <div class='description'>
+          <div class='item'>
+            \(t \to \text{tempo}\)
+          </div>
+          <div class='item'>
+
+            \(\left. \begin{array}{l} x(t)\\ y(t)\\ z(t) \end{array} \right\} \text{Coordenadas posição}\)
+          </div>
+        </div>
       </div>
-      <div class='col-md-4 col-md-offset-1 col-xs-12 col-lg-4 col-lg-offset-1 col-sm-5'>
+      <div class='col-md-4 col-xs-12 col-lg-4 col-sm-12'>
         <form id="mainForm" class="text-center" autocomplete="off">
           <div class="form-group">
             <div class="row">
@@ -41,9 +56,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="form-group text-center">
-            <p>\(\overrightarrow{f}(t)=(x(t),y(t),z(t))\):</p>
           </div>
           <div class='form-group'>
             <div class="input-group">
@@ -73,20 +85,122 @@
             <button type="submit" class='btn btn-primary btn-block'>Gerar gráfico</button>
           </div>
           <div class="panel panel-default hidden" id="tControls">
-            <div class="panel-heading">
-              <b>Avaliar em: </b> t =
-              <span id="tSpan">0</span>
+            <div class="panel-heading form-group form-inline">
+              <b>Avaliar em: </b> \(t = \)
+              <input type="number" id="tValue" class="form-control">
             </div>
             <div class="panel-body">
-              <input type="range" id="tSlider">
+              <div class="form-group">
+                <input type="range" id="tSlider" step="0.01">
+              </div>
+              <div class="form-group">
+                <input type="checkbox" id="moveCamera"> Acompanhar partícula
+              </div>
             </div>
           </div>
         </form>
       </div>
-      <div class="col-md-7 col-xs-12 col-lg-7 col-sm-7 block-center">
-        <div class="graph-div" id="firstGraphDiv"></div>
+      <div class="col-md-8 col-xs-12 col-lg-8 col-sm-12 block-center">
+        <ul class="nav nav-tabs">
+          <li role="presentation" class="active">
+            <a data-toggle="tab" href="#mechanics">Triedro de Frenet</a>
+          </li>
+          <li role="presentation">
+            <a data-toggle="tab" href="#mechanics">Prop. cinemáticas</a>
+          </li>
+          <li role="presentation">
+            <a data-toggle="tab" href="#geometric">Curvatura</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div id="mechanics" class="tab-pane fade in active">
+            <div class="well description text-center">
+              <div>
+                \(\overrightarrow{V}(t) = { d\overrightarrow{r}(t) \over dt } \)<br>
+                <span>Velocidade</span>
+              </div>
+              <div>
+                \(v(t) = ||\overrightarrow{V}(t)|| \)<br>
+                <span>Módulo da velocidade</span>
+              </div>
+              <div>
+                \( \overrightarrow{T}(t) = {\overrightarrow{V}(t) \over v(t) } \)<br>
+                <span>Vetor unitário tangente</span>
+              </div>
+            </div>
+            <div class="graph-div" id="firstGraphDiv"></div>
+          </div>
+        </div>
+
       </div>
     </div>
+
+
+    <div class="tab-content">
+      <div id="mechanics" class="tab-pane fade in active">
+
+      </div>
+      <div id="cinematics" class="tab-pane fade">
+        <div class="row">
+          <div class='col-md-4 col-md-offset-1 col-xs-12 col-lg-4 col-lg-offset-1 col-sm-5 text-center'>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+                  <div class="panel panel-default">
+                    <div class="panel-body">
+                      \(\overrightarrow{a}(t) = { d\overrightarrow{V}(t) \over dt } \)
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+                  <div class="panel panel-default">
+                    <div class="panel-body">
+                      \(\overrightarrow{a}_T(t) = { dv(t) \over dt } \overrightarrow{T} \)
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default hidden" id="tControls">
+              <div class="panel-heading">
+                <b>Avaliar em: </b> t =
+                <span id="tSpan">0</span>
+              </div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <input type="range" id="tSlider" step="0.01">
+                </div>
+                <div class="form-group">
+                  <input type="checkbox" id="moveCamera"> Acompanhar partícula
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-7 col-xs-12 col-lg-7 col-sm-7 block-center">
+            <div class="graph-div" id="secondGraphDiv"></div>
+          </div>
+        </div>
+      </div>
+      <div id="geometric" class="tab-pane fade">
+        <div class="row">
+          <div class="col-md-4 col-md-offset-1 col-xs-12 col-lg-4 col-lg-offset-1 col-sm-5 text-center">
+            <div class="form-group">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  \( k(t) = { |\overrightarrow{V}(t) X \overrightarrow{a}(t) | \over v(t)^3 } \)
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-7 col-xs-12 col-lg-7 col-sm-7 block-center">
+            <div class="graph-div" id="thirdGraphDiv"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
   </div>
 </body>
 <script src="dist/bundle.js"></script>

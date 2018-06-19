@@ -63,6 +63,7 @@ export default class Chart {
         let arrow = new THREE.ArrowHelper(dir, origin, 1, color);
         //let line = new THREE.Line(undefined, new THREE.LineBasicMaterial({color: color, linewidth: 3}));
         arrow.name = name;
+        
         //arrow.line = line;
         this.scene.add(arrow);
     }
@@ -113,6 +114,13 @@ export default class Chart {
     resize() {
         this.camera.aspect = this.config.targetDiv.offsetWidth / this.config.targetDiv.offsetHeight;
         this.renderer.setSize(this.config.targetDiv.offsetWidth, this.config.targetDiv.offsetHeight);
+        this.camera.updateProjectionMatrix();
+        this.controls.update();
+    }
+
+    updateCamera(newLocation, newFocus) {
+        this.camera.position.set(newLocation[0], newLocation[1], newLocation[2]);
+        this.controls.target = new THREE.Vector3(newFocus[0], newFocus[1], newFocus[2]);
         this.camera.updateProjectionMatrix();
         this.controls.update();
     }

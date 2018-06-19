@@ -8,9 +8,10 @@ const fxInput = document.getElementById("fx");
 const fyInput = document.getElementById("fy");
 const fzInput = document.getElementById("fz");
 const mainForm = document.getElementById("mainForm");
-const tSpan = document.getElementById("tSpan");
+const tInput = document.getElementById("tValue");
 const tSlider = document.getElementById("tSlider");
 const tControls = document.getElementById("tControls");
+const moveCameraInput = document.getElementById("moveCamera");
 
 let chart1 = new Chart({
 	targetDiv: document.getElementById("firstGraphDiv")
@@ -28,21 +29,19 @@ mainForm.addEventListener("submit", function (event) {
 	tControls.classList.remove("hidden");
 	tSlider.setAttribute("max", maxDomainInput.value);
 	tSlider.setAttribute("min", minDomainInput.value);
-	tSlider.value = (parseFloat(minDomainInput.value) + parseFloat(maxDomainInput.value)) / 2;
-	
-	updateT();
-
+	tSlider.value = tInput.value = (parseFloat(minDomainInput.value) + parseFloat(maxDomainInput.value)) / 2;
 	drawGraph();
 });
 
 tSlider.addEventListener("input", function() {
-	updateT();
+	tInput.value = tSlider.value;
 	drawVectors(parseFloat(tSlider.value));
 });
 
-const updateT = () => {
-	tSpan.innerHTML = tSlider.value;
-}
+tInput.addEventListener("input", function() {
+	tSlider.value = parseFloat(tInput.value);
+	drawVectors(parseFloat(tInput.value));
+})
 
 const drawGraph = () => {
 	chart1.clear("function");
@@ -69,7 +68,8 @@ const drawVectors = (t) => {
 	drawVector(chart1, datasetTI.r, datasetTI.T, "T", 0xff0055);
 	drawVector(chart1, datasetTI.r, datasetTI.N, "N", 0x0033cc);
 	drawVector(chart1, datasetTI.r, datasetTI.B, "B", 0x009933);
-	
+	if (moveCameraInput.checked === true)
+		chart1.updateCamera([datasetTI.r[0] + 10, datasetTI.r[1] + 2, datasetTI.r[2] + 5], datasetTI.r);
 }
 
 
