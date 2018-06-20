@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --watch --display-error-details",
-    "start:dev": "webpack-dev-server"
+    "start:dev": "webpack-dev-server --port 8080 --hot --host 0.0.0.0"
   },
   "author": "Danilo Medeiros",
   "license": "ISC",

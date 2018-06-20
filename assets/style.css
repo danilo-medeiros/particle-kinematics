@@ -14,10 +14,14 @@
 }
 
 .graph-div {
-    height: 500px;
+    height: 450px;
     width: 100%;
     margin: 0px auto;
     border: 1px solid #CCC;
+}
+
+.no-padding {
+    padding: 0px;
 }
 
 .with-indentation {
@@ -28,11 +32,64 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    flex-wrap: wrap;
     justify-content: space-around;
     padding: 20px 0px;
+    text-align: center;
+}
+
+.description > div {
+    margin: 0px 20px 20px 20px;
+}
+
+.vertical-description {
+    flex-direction: column;
+}
+
+.small-input {
+    width: 80px !important;
+    display: inline-block;
+}
+
+.vertical-description > div {
+    margin: 0px 0px 20px 0px;
 }
 
 .tab-content {
     padding: 20px 0px;
-    
 }
+
+.vector-color {
+    margin-right: 5px;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+}
+
+.vector-color.red {
+    background: red;
+}
+
+.vector-color.green {
+    background: green;
+}
+
+.vector-color.blue {
+    background: blue;
+}
+
+.vector-color.yellow {
+    background: yellow;
+}
+
+.vector-color.purple {
+    background: purple;
+}
+
+.vector-color.white {
+    background: white;
+    border: 1px solid #000;
+}
+
+
+

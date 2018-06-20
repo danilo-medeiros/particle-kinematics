@@ -16,8 +16,6 @@ export default class Curve {
             Mathjs.derivative(fz, 't')
         ];
 
-        //this._VModule = Mathjs.compile(`sqrt(${Mathjs.string(this._V[0])}^2 + ${Mathjs.string(this._V[1])}^2 + ${Mathjs.string(this._V[2])}^2)`);
-
         let vModuleString = `sqrt((${Mathjs.string(this._V[0])})^2 + (${Mathjs.string(this._V[1])})^2 + (${Mathjs.string(this._V[2])})^2)`;
         let TString = this._V.map(V => `${V} / ${vModuleString}`);
         

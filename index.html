@@ -27,179 +27,158 @@
             \(t \to \text{tempo}\)
           </div>
           <div class='item'>
-
             \(\left. \begin{array}{l} x(t)\\ y(t)\\ z(t) \end{array} \right\} \text{Coordenadas posição}\)
+          </div>
+          <div>
+            \( \text{Velocidade da partícula: } \overrightarrow{V}(t) = { d\overrightarrow{r}(t) \over dt } \)
+          </div>
+          <div>
+            \( \text{Módulo da velocidade: } v(t) = ||\overrightarrow{V}(t)|| \)
           </div>
         </div>
       </div>
-      <div class='col-md-4 col-xs-12 col-lg-4 col-sm-12'>
-        <form id="mainForm" class="text-center" autocomplete="off">
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
-                <label for="">Intervalo:</label>
-              </div>
-              <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6" style="padding-right: 2px;">
-                <div class="input-group">
-                  <span class="input-group-addon">
-                    <b>De: </b>
-                  </span>
-                  <input type="number" value="-10" class="form-control" id="minDomain">
+      <div class='col-md-4 col-xs-12 col-lg-3 col-sm-12'>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <b>Função:</b>
+          </div>
+          <div class="panel-body">
+            <form id="mainForm" class="text-center" autocomplete="off">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+                    <label for="">Intervalo:</label>
+                    <div class="form-group form-inline">
+                      <input type="number" value="-10" class="form-control small-input" step="0.01" id="minDomain">
+                      <label for="">até</label>
+                      <input type="number" value="10" class="form-control small-input" step="0.01" id="maxDomain">
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6" style="padding-left: 2px;">
+              <div class='form-group'>
                 <div class="input-group">
                   <span class="input-group-addon">
-                    <b>Até: </b>
+                    \(x(t) =\)
                   </span>
-                  <input type="number" value="10" class="form-control" id="maxDomain">
+                  <input type="text" value="sin(t)" autocomplete="off" id="fx" class="form-control">
                 </div>
               </div>
-            </div>
-          </div>
-          <div class='form-group'>
-            <div class="input-group">
-              <span class="input-group-addon">
-                \(x(t) =\)
-              </span>
-              <input type="text" value="sin(t)" autocomplete="off" id="fx" class="form-control">
-            </div>
-          </div>
-          <div class='form-group'>
-            <div class="input-group">
-              <span class="input-group-addon">
-                \(y(t) =\)
-              </span>
-              <input type="text" value="cos(t)" autocomplete="off" id="fy" class="form-control">
-            </div>
-          </div>
-          <div class='form-group'>
-            <div class="input-group">
-              <span class="input-group-addon">
-                \(z(t) =\)
-              </span>
-              <input type="text" value="t" autocomplete="off" id="fz" class="form-control">
-            </div>
-          </div>
-          <div class='form-group'>
-            <button type="submit" class='btn btn-primary btn-block'>Gerar gráfico</button>
-          </div>
-          <div class="panel panel-default hidden" id="tControls">
-            <div class="panel-heading form-group form-inline">
-              <b>Avaliar em: </b> \(t = \)
-              <input type="number" id="tValue" class="form-control">
-            </div>
-            <div class="panel-body">
-              <div class="form-group">
-                <input type="range" id="tSlider" step="0.01">
+              <div class='form-group'>
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    \(y(t) =\)
+                  </span>
+                  <input type="text" value="cos(t)" autocomplete="off" id="fy" class="form-control">
+                </div>
               </div>
-              <div class="form-group">
-                <input type="checkbox" id="moveCamera"> Acompanhar partícula
+              <div class='form-group'>
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    \(z(t) =\)
+                  </span>
+                  <input type="text" value="t" autocomplete="off" id="fz" class="form-control">
+                </div>
               </div>
-            </div>
+              <div class='form-group'>
+                <button type="submit" id="submit" class='btn btn-primary btn-block'>Gerar gráfico</button>
+              </div>
+              <div class="panel panel-default hidden" id="tControls">
+                <div class="panel-heading form-group form-inline">
+                  <b>Avaliar em: </b> \(t = \)
+                  <input type="number" id="tValue" step="0.01" class="small-input form-control">
+                </div>
+                <div class="panel-body">
+                  <div class="form-group">
+                    <input type="range" id="tSlider" step="0.01">
+                  </div>
+                  <div class="form-group">
+                    <input type="checkbox" id="moveCamera"> Acompanhar partícula
+                  </div>
+                </div>
+              </div>
+            </form>
+
           </div>
-        </form>
+        </div>
       </div>
-      <div class="col-md-8 col-xs-12 col-lg-8 col-sm-12 block-center">
+      <div class="col-md-8 col-xs-12 col-lg-9 col-sm-12">
         <ul class="nav nav-tabs">
           <li role="presentation" class="active">
-            <a data-toggle="tab" href="#mechanics">Triedro de Frenet</a>
+            <a data-toggle="tab" id="mechanicsLink" href="#mechanics">A) Triedro de Frenet</a>
           </li>
           <li role="presentation">
-            <a data-toggle="tab" href="#mechanics">Prop. cinemáticas</a>
+            <a data-toggle="tab" id="cinematicsLink" href="#mechanics">B) Prop. cinemáticas</a>
           </li>
           <li role="presentation">
-            <a data-toggle="tab" href="#geometric">Curvatura</a>
+            <a data-toggle="tab" href="#geometry">C) Prop. geométricas</a>
           </li>
         </ul>
         <div class="tab-content">
-          <div id="mechanics" class="tab-pane fade in active">
-            <div class="well description text-center">
-              <div>
-                \(\overrightarrow{V}(t) = { d\overrightarrow{r}(t) \over dt } \)<br>
-                <span>Velocidade</span>
+          <div id="mechanics" class="tab-pane in active">
+            <div class="row">
+              <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+                <div class="graph-div" id="firstGraphDiv"></div>
               </div>
-              <div>
-                \(v(t) = ||\overrightarrow{V}(t)|| \)<br>
-                <span>Módulo da velocidade</span>
-              </div>
-              <div>
-                \( \overrightarrow{T}(t) = {\overrightarrow{V}(t) \over v(t) } \)<br>
-                <span>Vetor unitário tangente</span>
+              <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+                <div class="description" id="descriptionMechanics">
+                  <div>
+                    <div class="vector-color red"></div>
+                    \( \text{Vetor unitário tangente: } \overrightarrow{T}(t) = {\overrightarrow{V}(t) \over v(t) } \)
+                  </div>
+                  <div>
+                    <div class="vector-color blue"></div>
+                    \( \text{Vetor unitário normal: } \overrightarrow{N}(t) = {\overrightarrow{T}(t) \over ||\overrightarrow{T}(t)|| } \)
+                  </div>
+                  <div>
+                    <div class="vector-color green"></div>
+                    \( \text{Vetor unitário binormal: } \overrightarrow{B} = \overrightarrow{T} \times \overrightarrow{N} \)
+                  </div>
+                </div>
+                <div class="description hidden" id="descriptionCinematics">
+                  <div>
+                    <div class="vector-color purple"></div>
+                    \( \text{Aceleração: } \overrightarrow{a}(t) = { d\overrightarrow{V}(t) \over dt } \)
+                  </div>
+                  <div>
+                    <div class="vector-color yellow"></div>
+                    \( \text{Aceleração tangencial: } \)
+                    \( \overrightarrow{a}_T(t) = { dv(t) \over dt } \overrightarrow{T} \)
+                    <span style="margin: 0px 10px">\(\text{ou}\)</span> \( \overrightarrow{a}_T(t) = \overrightarrow{a}(t) \overrightarrow{T}\)
+                  </div>
+                  <div>
+                    <div class="vector-color white"></div>
+                    \( \text{Aceleração centrípeta: } \overrightarrow{a}_{cpta}(t) = \overrightarrow{a} - \overrightarrow{a}_T \)
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="graph-div" id="firstGraphDiv"></div>
+          </div>
+
+          <div id="geometry" class="tab-pane">
+            <div class="row">
+              <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+                <div class="col-md-6 col-xs-12 col-lg-6 col-sm-6 no-padding">
+                  <div class="graph-div" id="secondGraphDiv"></div>
+                </div>
+                <div class="col-md-6 col-xs-12 col-lg-6 col-sm-6 no-padding">
+                  <div class="graph-div" id="thirdGraphDiv"></div>
+                </div>
+
+              </div>
+              <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+                <div class="description">
+                  <div>
+                    \( \text{Curvatura: } k(t) = { |\overrightarrow{V}(t) X \overrightarrow{a}(t) | \over v(t)^3 } \)
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
       </div>
     </div>
-
-
-    <div class="tab-content">
-      <div id="mechanics" class="tab-pane fade in active">
-
-      </div>
-      <div id="cinematics" class="tab-pane fade">
-        <div class="row">
-          <div class='col-md-4 col-md-offset-1 col-xs-12 col-lg-4 col-lg-offset-1 col-sm-5 text-center'>
-            <div class="form-group">
-              <div class="row">
-                <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
-                  <div class="panel panel-default">
-                    <div class="panel-body">
-                      \(\overrightarrow{a}(t) = { d\overrightarrow{V}(t) \over dt } \)
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
-                  <div class="panel panel-default">
-                    <div class="panel-body">
-                      \(\overrightarrow{a}_T(t) = { dv(t) \over dt } \overrightarrow{T} \)
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default hidden" id="tControls">
-              <div class="panel-heading">
-                <b>Avaliar em: </b> t =
-                <span id="tSpan">0</span>
-              </div>
-              <div class="panel-body">
-                <div class="form-group">
-                  <input type="range" id="tSlider" step="0.01">
-                </div>
-                <div class="form-group">
-                  <input type="checkbox" id="moveCamera"> Acompanhar partícula
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-7 col-xs-12 col-lg-7 col-sm-7 block-center">
-            <div class="graph-div" id="secondGraphDiv"></div>
-          </div>
-        </div>
-      </div>
-      <div id="geometric" class="tab-pane fade">
-        <div class="row">
-          <div class="col-md-4 col-md-offset-1 col-xs-12 col-lg-4 col-lg-offset-1 col-sm-5 text-center">
-            <div class="form-group">
-              <div class="panel panel-default">
-                <div class="panel-body">
-                  \( k(t) = { |\overrightarrow{V}(t) X \overrightarrow{a}(t) | \over v(t)^3 } \)
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-7 col-xs-12 col-lg-7 col-sm-7 block-center">
-            <div class="graph-div" id="thirdGraphDiv"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
 
   </div>
 </body>

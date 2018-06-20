@@ -20,9 +20,10 @@ export default class Chart {
         // CAMERA SETTINGS
         this.camera = new THREE.PerspectiveCamera(45,
             this.config.targetDiv.offsetWidth / this.config.targetDiv.offsetHeight, 1, 500);
-        this.camera.position.set(5, 2, 5);
+        this.camera.position.set(5, 5, 2);
         this.camera.zoom = 2;
         this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+        this.camera.up = new THREE.Vector3(0, 0, 1);
 
         // SCENE SETTINGS
         this.scene = new THREE.Scene();
@@ -54,17 +55,21 @@ export default class Chart {
         this.scene.add(line);
     }
 
+    drawParticle(position) {
+        this.clear("particle");
+        let geometry = new THREE.SphereBufferGeometry(0.05, 32, 32);
+        let sphere = new THREE.Mesh(geometry, this.defaultMaterial);
+        sphere.name = "particle";
+        sphere.position.set(position[0], position[1], position[2]);
+        this.scene.add(sphere);
+    }
+
     drawVector(color, initial, final, name) {
         let dir = new THREE.Vector3(final[0], final[1], final[2]);
         dir.normalize();
-
         let origin = new THREE.Vector3(initial[0], initial[1], initial[2]);
-        
         let arrow = new THREE.ArrowHelper(dir, origin, 1, color);
-        //let line = new THREE.Line(undefined, new THREE.LineBasicMaterial({color: color, linewidth: 3}));
         arrow.name = name;
-        
-        //arrow.line = line;
         this.scene.add(arrow);
     }
 
@@ -79,7 +84,6 @@ export default class Chart {
     createR3() {
 
         let material = new THREE.LineBasicMaterial({ color: 0x666666, linewidth: 1 });
-
         let xMaterial = new THREE.LineBasicMaterial({color: 0xff0000, linewidth: 3});
         let yMaterial = new THREE.LineBasicMaterial({color: 0x00ff00, linewidth: 3});
         let zMaterial = new THREE.LineBasicMaterial({color: 0x002db3, linewidth: 3});
@@ -87,13 +91,13 @@ export default class Chart {
         for (let i = -1 * this.config.size; i <= this.config.size; i++) {
 
             this.drawLine(material,
-                [-1 * this.config.size * this.config.scale, 0.0, i * this.config.scale],
-                [this.config.size * this.config.scale, 0.0, i * this.config.scale]
+                [-1 * this.config.size * this.config.scale, i * this.config.scale, 0.0],
+                [this.config.size * this.config.scale, i * this.config.scale, 0.0]
             );
 
             this.drawLine(material,
-                [i * this.config.scale, 0.0, -1 * this.config.size * this.config.scale],
-                [i * this.config.scale, 0.0, this.config.size * this.config.scale]
+                [i * this.config.scale, -1 * this.config.size * this.config.scale, 0.0],
+                [i * this.config.scale, this.config.size * this.config.scale, 0.0]
             );
 
             if (i === 0) {
