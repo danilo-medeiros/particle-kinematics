@@ -86,11 +86,11 @@
               <div class="panel panel-default hidden" id="tControls">
                 <div class="panel-heading form-group form-inline">
                   <b>Avaliar em: </b> \(t = \)
-                  <input type="number" id="tValue" step="0.01" class="small-input form-control">
+                  <input type="number" id="tValue" step="0.001" class="small-input form-control">
                 </div>
                 <div class="panel-body">
                   <div class="form-group">
-                    <input type="range" id="tSlider" step="0.01">
+                    <input type="range" id="tSlider" step="0.001">
                   </div>
                   <div class="form-group">
                     <input type="checkbox" id="moveCamera"> Acompanhar partícula
@@ -111,7 +111,7 @@
             <a data-toggle="tab" id="cinematicsLink" href="#mechanics">B) Prop. cinemáticas</a>
           </li>
           <li role="presentation">
-            <a data-toggle="tab" href="#geometry">C) Prop. geométricas</a>
+            <a data-toggle="tab" id="geometryLink" href="#geometry">C) Prop. geométricas</a>
           </li>
         </ul>
         <div class="tab-content">
@@ -141,13 +141,13 @@
                     \( \text{Aceleração: } \overrightarrow{a}(t) = { d\overrightarrow{V}(t) \over dt } \)
                   </div>
                   <div>
-                    <div class="vector-color yellow"></div>
+                    <div class="vector-color pink"></div>
                     \( \text{Aceleração tangencial: } \)
                     \( \overrightarrow{a}_T(t) = { dv(t) \over dt } \overrightarrow{T} \)
                     <span style="margin: 0px 10px">\(\text{ou}\)</span> \( \overrightarrow{a}_T(t) = \overrightarrow{a}(t) \overrightarrow{T}\)
                   </div>
                   <div>
-                    <div class="vector-color white"></div>
+                    <div class="vector-color orange"></div>
                     \( \text{Aceleração centrípeta: } \overrightarrow{a}_{cpta}(t) = \overrightarrow{a} - \overrightarrow{a}_T \)
                   </div>
                 </div>
