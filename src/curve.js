@@ -24,13 +24,16 @@ export default class Curve {
         let _vModuleString = this.norm(this._V);
         this._v = Mathjs.compile(_vModuleString);
 
-
         // Vetor unitário tangente (Velocidade normalizada)
         let _TString = this._V.map(V => `${V} / ${_vModuleString}`);
+        this._T = _TString.map(T => Mathjs.compile(T));
 
         // Vetor unitário normal (Derivada do vetor unitário tangente normalizada)
         let _TDerivativeString = _TString.map(T => Mathjs.string(Mathjs.derivative(T, "t")));
         let _TDerivativeModuleString = this.norm(_TDerivativeString);
+
+        console.log(_TDerivativeString, _TDerivativeModuleString);
+
         this._N = _TDerivativeString.map(T => Mathjs.compile(`${T} / ${_TDerivativeModuleString}`));
 
         // Vetor aceleração (derivada da velocidade)
@@ -40,10 +43,6 @@ export default class Curve {
             Mathjs.derivative(Mathjs.string(this._V[2]), 't'),
         ]
 
-
-        
-        
-        
     }
 
     r(t) {
@@ -51,8 +50,7 @@ export default class Curve {
     }
 
     T(t) {
-        let v = this._v.eval({t: t});
-        return this._V.map(V => V.eval({t: t}) / v);
+        return this._V.map(V => V.eval({t: t}));
     }
 
     N(t) {
@@ -62,6 +60,7 @@ export default class Curve {
     getDataset(t) {
 
         let T = this.T(t);
+        
         let N = this.N(t);
 
         let a = this._a.map(a => a.eval({t: t}));

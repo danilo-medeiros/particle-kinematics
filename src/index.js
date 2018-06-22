@@ -89,8 +89,8 @@ const drawVectors = (t) => {
 
 	if (mode === "1") {
 		drawVector(chart1, datasetTI.r, datasetTI.T, "T", 0xff0055);
-		drawVector(chart1, datasetTI.r, datasetTI.N, "N", 0x0033cc);
-		drawVector(chart1, datasetTI.r, datasetTI.B, "B", 0x009933);
+		//drawVector(chart1, datasetTI.r, datasetTI.N, "N", 0x0033cc);
+		//drawVector(chart1, datasetTI.r, datasetTI.B, "B", 0x009933);
 	} else if (mode === "2") {
 		drawVector(chart1, datasetTI.r, datasetTI.a, "a", 0x82437f);
 		drawVector(chart1, datasetTI.r, datasetTI.aT, "aT", 0xcc0066);
