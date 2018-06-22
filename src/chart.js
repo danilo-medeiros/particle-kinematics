@@ -69,6 +69,7 @@ export default class Chart {
             return;
 
         let dir = new THREE.Vector3(final[0], final[1], final[2]);
+        dir.normalize();
         let origin = new THREE.Vector3(initial[0], initial[1], initial[2]);
         let arrow = new THREE.ArrowHelper(dir, origin, 1, color);
         arrow.line.material.linewidth = 2;

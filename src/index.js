@@ -72,7 +72,7 @@ const drawGraph = () => {
 	let minDomain = parseFloat(minDomainInput.value);
 	let maxDomain = parseFloat(maxDomainInput.value);
 
-	curveControl = new CurveControl([minDomain, maxDomain], fxInput.value, fyInput.value, fzInput.value);
+	curveControl = new CurveControl(fxInput.value, fyInput.value, fzInput.value);
 	
 	let epsilon = 0.05;
 	
@@ -89,8 +89,8 @@ const drawVectors = (t) => {
 
 	if (mode === "1") {
 		drawVector(chart1, datasetTI.r, datasetTI.T, "T", 0xff0055);
-		//drawVector(chart1, datasetTI.r, datasetTI.N, "N", 0x0033cc);
-		//drawVector(chart1, datasetTI.r, datasetTI.B, "B", 0x009933);
+		drawVector(chart1, datasetTI.r, datasetTI.N, "N", 0x0033cc);
+		drawVector(chart1, datasetTI.r, datasetTI.B, "B", 0x009933);
 	} else if (mode === "2") {
 		drawVector(chart1, datasetTI.r, datasetTI.a, "a", 0x82437f);
 		drawVector(chart1, datasetTI.r, datasetTI.aT, "aT", 0xcc0066);

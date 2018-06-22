@@ -20,81 +20,72 @@ export default class Curve {
             Mathjs.derivative(fz, 't')
         ];
 
-        // Módulo da velocidade
-        let _vModuleString = this.norm(this._V);
-        this._v = Mathjs.compile(_vModuleString);
-
-        // Vetor unitário tangente (Velocidade normalizada)
-        let _TString = this._V.map(V => `${V} / ${_vModuleString}`);
-        this._T = _TString.map(T => Mathjs.compile(T));
-
-        // Vetor unitário normal (Derivada do vetor unitário tangente normalizada)
-        let _TDerivativeString = _TString.map(T => Mathjs.string(Mathjs.derivative(T, "t")));
-        let _TDerivativeModuleString = this.norm(_TDerivativeString);
-
-        console.log(_TDerivativeString, _TDerivativeModuleString);
-
-        this._N = _TDerivativeString.map(T => Mathjs.compile(`${T} / ${_TDerivativeModuleString}`));
-
-        // Vetor aceleração (derivada da velocidade)
-        this._a = [
-            Mathjs.derivative(Mathjs.string(this._V[0]), 't'),
-            Mathjs.derivative(Mathjs.string(this._V[1]), 't'),
-            Mathjs.derivative(Mathjs.string(this._V[2]), 't'),
-        ]
-
     }
 
     r(t) {
-        return this._r.map(r => r.eval({t: t}));
-    }
-
-    T(t) {
-        return this._V.map(V => V.eval({t: t}));
-    }
-
-    N(t) {
-        return this._N.map(N => N.eval({t: t}));
+        return [
+            this._r[0].eval({t: t}),
+            this._r[1].eval({t: t}),
+            this._r[2].eval({t: t})
+        ]
     }
 
     getDataset(t) {
 
-        let T = this.T(t);
+        const delta = 0.0001;
+        const r = [];
+        const T = [];
+        const Ti = [];
+        const Tf = [];
+
+        const V = [
+            this._V[0].eval({t: t}), 
+            this._V[1].eval({t: t}), 
+            this._V[2].eval({t: t})
+        ];
+        const Vi = [
+            this._V[0].eval({t: (t - delta)}), 
+            this._V[1].eval({t: (t - delta)}), 
+            this._V[2].eval({t: (t - delta)})
+        ]
+        const Vf = [
+            this._V[0].eval({t: (t + delta)}), 
+            this._V[1].eval({t: (t + delta)}), 
+            this._V[2].eval({t: (t + delta)})
+        ]
+
+        const v = Mathjs.norm(V);
+        const vi = Mathjs.norm(Vi);
+        const vf = Mathjs.norm(Vf);
+
+        for (let i = 0; i < 3; i++) {
+            r[i] = this._r[i].eval({t: t});
+            T[i] = V[i] / v;
+            Ti[i] = Vi[i] / vi;
+            Tf[i] = Vf[i] / vf;
+        }
         
-        let N = this.N(t);
+        const TDerivative = [
+            (Tf[0] - Ti[0]) / (delta * 2),
+            (Tf[1] - Ti[1]) / (delta * 2),
+            (Tf[2] - Ti[2]) / (delta * 2)
+        ];
+        const TDerivativeNorm = Mathjs.norm(TDerivative);
+        const N = [
+            TDerivative[0] / TDerivativeNorm,
+            TDerivative[1] / TDerivativeNorm,
+            TDerivative[2] / TDerivativeNorm,
+        ]
 
-        let a = this._a.map(a => a.eval({t: t}));
-        let v = this._v.eval({t: t});
-        let aT = T.map(_T => _T * v);
-        let aCpta = this._a.map((_a, i) => _a - aT[i]);
-
-
-        /* 
-        let r = this._r.map(r => r.eval({t: t}));
-        let vEval = this._V.map(v => {
-            if (!v.isConstantNode)
-                return v.eval({t: t});
-            return v.value;
-        })
-        let T = vEval.map(v => v / Mathjs.norm(vEval));
-        let N = T.map(_T => _T / Mathjs.norm(_T));
-        let B = Mathjs.cross(T, N);
-        let a = this._a.map(a => a.eval({t: t}));
-        let v = this._v.eval({t: t});
-        let aT = T.map(_T => _T * v);
-        let aCpta = this._a.map((_a, i) => _a - aT[i]);
- */
-
+        const B = Mathjs.cross(T, N);
+        
         return {
-            r: this.r(t),
+            r: r,
             T: T,
             N: N,
-            B: Mathjs.cross(T, N)
+            B: B
         }
     }
 
-    norm(vector) {
-        return `sqrt((${Mathjs.string(vector[0])})^2 + (${Mathjs.string(vector[1])})^2 + (${Mathjs.string(vector[2])})^2)`;
-    }
 
 }

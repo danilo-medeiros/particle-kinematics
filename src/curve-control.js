@@ -3,9 +3,7 @@ import Mathjs from "mathjs";
 
 export default class CurveControl {
 
-    constructor(domain, fx, fy, fz) {
-        this.domain = domain;
-        this.continue = true;
+    constructor(fx, fy, fz) {
         this.f = new Curve(fx, fy, fz);
     }
 
