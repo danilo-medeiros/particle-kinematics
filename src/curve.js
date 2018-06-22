@@ -78,14 +78,20 @@ export default class Curve {
         ]
 
         const B = Mathjs.cross(T, N);
-        
+
+        const aTt = [
+            N[0] + T[0],
+            N[1] + T[1],
+            N[2] + T[2]
+        ]
+
         return {
             r: r,
             T: T,
             N: N,
-            B: B
+            B: B,
+            aTt: aTt
         }
     }
-
 
 }

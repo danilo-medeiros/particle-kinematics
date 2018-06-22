@@ -78,16 +78,16 @@
     background: blue;
 }
 
-.vector-color.pink {
-    background: #cc0066;
-}
-
 .vector-color.purple {
-    background: purple;
+    background: #6c0081;
 }
 
-.vector-color.orange {
-    background: #ff6600;
+.vector-color.yellow {
+    background: #8f7900;
+}
+
+.vector-color.sky-blue {
+    background: #008b80;
     border: 1px solid #000;
 }
 

@@ -14,5 +14,4 @@ export default class CurveControl {
     getDataset(t) {
         return this.f.getDataset(t);
     }
-
 }
