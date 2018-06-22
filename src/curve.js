@@ -85,12 +85,26 @@ export default class Curve {
             N[2] + T[2]
         ]
 
+        const a = [
+            (Vf[0] - Vi[0]) / (delta * 2),
+            (Vf[1] - Vi[1]) / (delta * 2),
+            (Vf[2] - Vi[2]) / (delta * 2)
+        ]
+
+        
+        const k = [
+            T[0] * (TDerivativeNorm / v),
+            T[1] * (TDerivativeNorm / v),
+            T[2] * (TDerivativeNorm / v),
+        ];
+
         return {
             r: r,
             T: T,
             N: N,
             B: B,
-            aTt: aTt
+            aTt: aTt,
+            k: k
         }
     }
 

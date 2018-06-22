@@ -77,6 +77,16 @@ export default class Chart {
         this.scene.add(arrow);
     }
 
+    drawCircle(position) {
+        const geometry = new THREE.CircleBufferGeometry(1, 32);
+        //const material = new THREE.MeshBasicMaterial({ color: 0xF0f0f0, wireframe: true });
+        const circle = new THREE.Mesh(geometry, this.defaultMaterial);
+        circle.name = "circle";
+        //console.log(position);
+        circle.position.set(position[0], position[1], position[3]);
+        this.scene.add(circle);
+    }
+
     clear(name) {
         let selectedObject = this.scene.getObjectByName(name);
         while (selectedObject !== undefined) {

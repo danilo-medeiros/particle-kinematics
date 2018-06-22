@@ -10,6 +10,7 @@ const tInput = document.getElementById("tValue");
 const tSlider = document.getElementById("tSlider");
 const tControls = document.getElementById("tControls");
 const moveCameraInput = document.getElementById("moveCamera");
+const animationControl = document.getElementById("animate");
 let mode = "1";
 
 let chart1 = new Chart({
@@ -18,13 +19,15 @@ let chart1 = new Chart({
 
 let curveControl;
 
+animationControl.addEventListener("input", () => {
+	animate(parseFloat(tInput.value));
+})
+
 document.getElementById("mechanicsLink").addEventListener("click", () => {
 	document.getElementById("descriptionMechanics").classList.remove("hidden");
 	document.getElementById("descriptionCinematics").classList.add("hidden");
 	mode = "1";
-	chart1.clear("a");
-	chart1.clear("aT");
-	chart1.clear("aCpta");
+	clearVectors();
 })
 
 document.getElementById("cinematicsLink").addEventListener("click", () => {
@@ -55,14 +58,31 @@ tSlider.addEventListener("input", function () {
 tInput.addEventListener("input", function () {
 	tSlider.value = parseFloat(tInput.value);
 	drawVectors(parseFloat(tInput.value));
-})
+});
+
+const animate = (counter) => {
+	counter += 0.01;
+	drawVectors(counter);
+	tInput.value = counter;
+	tSlider.value = counter;
+	
+	if (animationControl.checked === true) {
+		if (counter >= parseFloat(maxDomainInput.value)) {
+			counter = parseFloat(minDomainInput.value);
+		}
+		setTimeout(() => {
+			animate(counter);
+		}, 1);	
+	}
+
+	
+}
 
 const clearVectors = () => {
 	chart1.clear("particle");
 	chart1.clear("T");
 	chart1.clear("N");
 	chart1.clear("B");
-	chart1.clear("a");
 	chart1.clear("aT");
 	chart1.clear("aTt");
 	chart1.clear("aCpta");
