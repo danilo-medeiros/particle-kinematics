@@ -1,5 +1,5 @@
-import CurveControl from "./curve-control";
 import Chart from "./chart";
+import Curve from "./curve";
 
 const minDomainInput = document.getElementById("minDomain");
 const maxDomainInput = document.getElementById("maxDomain");
@@ -17,7 +17,7 @@ let chart1 = new Chart({
 	targetDiv: document.getElementById("firstGraphDiv")
 });
 
-let curveControl;
+let curve;
 
 animationControl.addEventListener("input", () => {
 	animate(parseFloat(tInput.value));
@@ -83,6 +83,7 @@ const clearVectors = () => {
 	chart1.clear("T");
 	chart1.clear("N");
 	chart1.clear("B");
+	chart1.clear("a");
 	chart1.clear("aT");
 	chart1.clear("aTt");
 	chart1.clear("aCpta");
@@ -95,19 +96,19 @@ const drawGraph = () => {
 	let minDomain = parseFloat(minDomainInput.value);
 	let maxDomain = parseFloat(maxDomainInput.value);
 
-	curveControl = new CurveControl(fxInput.value, fyInput.value, fzInput.value);
+	curve = new Curve(fxInput.value, fyInput.value, fzInput.value);
 	
 	let epsilon = 0.05;
 	
 	for (let t = minDomain; t < maxDomain; t = t + epsilon) {
-		let pointTI = curveControl.getPoint(t);
-		let pointTF = curveControl.getPoint(t + epsilon);
+		let pointTI = curve.r(t);
+		let pointTF = curve.r(t + epsilon);
 		chart1.drawLine(chart1.defaultMaterial, pointTI, pointTF, "function");
 	}
 }
 
 const drawVectors = (t) => {
-	const dataset = curveControl.getDataset(t);
+	const dataset = curve.getDataset(t);
 	if (mode === "1") {
 		chart1.drawParticle(dataset.r);
 		drawVector(chart1, dataset.r, dataset.T, "T", 0xff0055);
@@ -117,20 +118,19 @@ const drawVectors = (t) => {
 			chart1.updateCamera([dataset.r[0] + 10, dataset.r[1] + 2, dataset.r[2] + 5], dataset.r);
 	} else if (mode === "2") {
 		chart1.drawParticle(dataset.r);
-		drawVector(chart1, dataset.r, dataset.T, "aT", 0x8f7900);
-		drawVector(chart1, dataset.r, dataset.aTt, "aTt", 0x6c0081);
-		drawVector(chart1, dataset.r, dataset.N, "aCpta", 0x008b80);
+		drawVector(chart1, dataset.r, dataset.a, "a", 0x6c0081, dataset.aLength);
+		drawVector(chart1, dataset.r, dataset.aT, "aT", 0xff00ff, dataset.aTLength);
+		drawVector(chart1, dataset.r, dataset.aCpta, "aCpta", 0x008b80, dataset.aCptaLength);
 		if (moveCameraInput.checked === true)
 			chart1.updateCamera([dataset.r[0] + 10, dataset.r[1] + 2, dataset.r[2] + 5], dataset.r);
 	}
-
 	
 }
 
 
-const drawVector = (chart, i, f, name, color) => {
+const drawVector = (chart, i, f, name, color, length) => {
 	chart.clear(name);
-	chart.drawVector(color, i, f, name);
+	chart.drawVector(color, i, f, name, length);
 }
 
 const initialize = () => {

@@ -79,31 +79,46 @@ export default class Curve {
 
         const B = Mathjs.cross(T, N);
 
-        const aTt = [
-            N[0] + T[0],
-            N[1] + T[1],
-            N[2] + T[2]
-        ]
-
+     
         const a = [
             (Vf[0] - Vi[0]) / (delta * 2),
             (Vf[1] - Vi[1]) / (delta * 2),
             (Vf[2] - Vi[2]) / (delta * 2)
+        ];
+
+        const vDerivative = (vf - vi) / (delta * 2);
+
+        const aT = [
+            vDerivative * T[0],
+            vDerivative * T[1],
+            vDerivative * T[2]
         ]
 
-        
         const k = [
             T[0] * (TDerivativeNorm / v),
             T[1] * (TDerivativeNorm / v),
             T[2] * (TDerivativeNorm / v),
         ];
 
+        const aCpta = [
+            a[0] - aT[0],
+            a[1] - aT[1],
+            a[2] - aT[2]
+        ]
+
+        const factor = Mathjs.norm(a);
+   
         return {
             r: r,
             T: T,
             N: N,
             B: B,
-            aTt: aTt,
+            a: a,
+            aLength: 1,
+            aT: aT,
+            aTLength: Mathjs.norm(aT) / factor,
+            aCpta: aCpta,
+            aCptaLength: Mathjs.norm(aCpta) / factor,
             k: k
         }
     }

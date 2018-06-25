@@ -64,15 +64,16 @@ export default class Chart {
         this.scene.add(sphere);
     }
 
-    drawVector(color, initial, final, name) {
-        if (final.includes(NaN))
+    drawVector(color, initial, final, name, length = 1) {
+        
+        if (final.includes(NaN) || final.every(e => e === 0))
             return;
 
         let dir = new THREE.Vector3(final[0], final[1], final[2]);
         dir.normalize();
         let origin = new THREE.Vector3(initial[0], initial[1], initial[2]);
-        let arrow = new THREE.ArrowHelper(dir, origin, 1, color);
-        arrow.line.material.linewidth = 2;
+        let arrow = new THREE.ArrowHelper(dir, origin, length, color);
+        arrow.line.material.linewidth = 3;
         arrow.name = name;
         this.scene.add(arrow);
     }
