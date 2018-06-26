@@ -64,7 +64,7 @@ export default class Chart {
         this.scene.add(sphere);
     }
 
-    drawVector(color, initial, final, name, length = 1) {
+    drawVector(color, initial, final, name, length = 1, lineWidth = 3) {
         
         if (final.includes(NaN) || final.every(e => e === 0))
             return;
@@ -73,19 +73,32 @@ export default class Chart {
         dir.normalize();
         let origin = new THREE.Vector3(initial[0], initial[1], initial[2]);
         let arrow = new THREE.ArrowHelper(dir, origin, length, color);
-        arrow.line.material.linewidth = 3;
+        arrow.line.material.linewidth = lineWidth;
         arrow.name = name;
         this.scene.add(arrow);
     }
 
-    drawCircle(position) {
-        const geometry = new THREE.CircleBufferGeometry(1, 32);
-        //const material = new THREE.MeshBasicMaterial({ color: 0xF0f0f0, wireframe: true });
-        const circle = new THREE.Mesh(geometry, this.defaultMaterial);
+    drawCircle(radius, center, k, T, B) {
+        const geometry = new THREE.CircleGeometry( radius, 64 );
+        geometry.vertices.shift();
+
+        const kAngle = Math.atan2(k[2], k[1]);
+        const TAngle = Math.atan2(T[2], T[1]);
+        const BAngle = Math.atan2(B[2], B[1]);
+        
+        const rotation1 = new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(B[0], B[1], B[2]).normalize(), kAngle);
+        const rotation2 = new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(k[0], k[1], k[2]).normalize(), TAngle);
+        const rotation3 = new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(T[0], T[1], T[2]).normalize(), BAngle);
+        
+        geometry.applyMatrix(rotation1);
+        //geometry.applyMatrix(rotation2);
+        //geometry.applyMatrix(rotation3);
+
+        const material = new THREE.LineBasicMaterial( { color: 0xff3300, linewidth: 2 } );
+        const circle = new THREE.LineLoop( geometry, material );
+        circle.position.set(center[0], center[1], center[2]);
         circle.name = "circle";
-        //console.log(position);
-        circle.position.set(position[0], position[1], position[3]);
-        this.scene.add(circle);
+        this.scene.add( circle );
     }
 
     clear(name) {

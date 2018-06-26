@@ -26,6 +26,7 @@ animationControl.addEventListener("input", () => {
 document.getElementById("mechanicsLink").addEventListener("click", () => {
 	document.getElementById("descriptionMechanics").classList.remove("hidden");
 	document.getElementById("descriptionCinematics").classList.add("hidden");
+	document.getElementById("descriptionGeometrics").classList.add("hidden");
 	mode = "1";
 	clearVectors();
 })
@@ -33,12 +34,17 @@ document.getElementById("mechanicsLink").addEventListener("click", () => {
 document.getElementById("cinematicsLink").addEventListener("click", () => {
 	document.getElementById("descriptionCinematics").classList.remove("hidden");
 	document.getElementById("descriptionMechanics").classList.add("hidden");
+	document.getElementById("descriptionGeometrics").classList.add("hidden");
 	mode = "2";
 	clearVectors();
 });
 
 document.getElementById("geometryLink").addEventListener("click", () => {
+	document.getElementById("descriptionGeometrics").classList.remove("hidden");
+	document.getElementById("descriptionMechanics").classList.add("hidden");
+	document.getElementById("descriptionCinematics").classList.add("hidden");
 	mode = "3";
+	clearVectors();
 })
 
 window.addEventListener("resize", function (event) {
@@ -85,8 +91,9 @@ const clearVectors = () => {
 	chart1.clear("B");
 	chart1.clear("a");
 	chart1.clear("aT");
-	chart1.clear("aTt");
 	chart1.clear("aCpta");
+	chart1.clear("k");
+	chart1.clear("circle");
 }
 
 const drawGraph = () => {
@@ -109,28 +116,47 @@ const drawGraph = () => {
 
 const drawVectors = (t) => {
 	const dataset = curve.getDataset(t);
+	chart1.drawParticle(dataset.r);
 	if (mode === "1") {
-		chart1.drawParticle(dataset.r);
 		drawVector(chart1, dataset.r, dataset.T, "T", 0xff0055);
 		drawVector(chart1, dataset.r, dataset.N, "N", 0x0033cc);
 		drawVector(chart1, dataset.r, dataset.B, "B", 0x009933);
-		if (moveCameraInput.checked === true)
-			chart1.updateCamera([dataset.r[0] + 10, dataset.r[1] + 2, dataset.r[2] + 5], dataset.r);
 	} else if (mode === "2") {
-		chart1.drawParticle(dataset.r);
 		drawVector(chart1, dataset.r, dataset.a, "a", 0x6c0081, dataset.aLength);
 		drawVector(chart1, dataset.r, dataset.aT, "aT", 0xff00ff, dataset.aTLength);
 		drawVector(chart1, dataset.r, dataset.aCpta, "aCpta", 0x008b80, dataset.aCptaLength);
-		if (moveCameraInput.checked === true)
-			chart1.updateCamera([dataset.r[0] + 10, dataset.r[1] + 2, dataset.r[2] + 5], dataset.r);
+	} else {
+		drawVector(chart1, dataset.r, dataset.k, "k", 0x000000, dataset.kLength, 1);
+		drawVector(chart1, dataset.r, dataset.T, "T", 0xff0055);
+		drawVector(chart1, dataset.r, dataset.B, "B", 0x009933);
+		drawCircle(dataset.kLength, [
+			dataset.r[0] + dataset.k[0] / 2, 
+			dataset.r[1] + dataset.k[1] / 2, 
+			dataset.r[2] + dataset.k[2] / 2
+		], dataset.k, dataset.T, dataset.B);
 	}
+	if (moveCameraInput.checked === true)
+		chart1.updateCamera([dataset.r[0] + 10, dataset.r[1] + 2, dataset.r[2] + 5], dataset.r);
 	
 }
 
+const normalize = (vector) => {
+	const vectorNorm = Math.sqrt(Math.pow(vector[0], 2) + Math.pow(vector[1], 2) + Math.pow(vector[2], 2));
+	return [
+		vector[0] / vectorNorm,
+		vector[1] / vectorNorm,
+		vector[2] / vectorNorm
+	]
+}
 
-const drawVector = (chart, i, f, name, color, length) => {
+const drawCircle = (radius, center, k, T, B) => {
+	chart1.clear("circle");
+	chart1.drawCircle(radius, center, k, T, B);
+}
+
+const drawVector = (chart, i, f, name, color, length, lineWidth) => {
 	chart.clear(name);
-	chart.drawVector(color, i, f, name, length);
+	chart.drawVector(color, i, f, name, length, lineWidth);
 }
 
 const initialize = () => {

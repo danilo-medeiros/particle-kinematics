@@ -95,9 +95,9 @@ export default class Curve {
         ]
 
         const k = [
-            T[0] * (TDerivativeNorm / v),
-            T[1] * (TDerivativeNorm / v),
-            T[2] * (TDerivativeNorm / v),
+            N[0] * (1 / (TDerivativeNorm / v)),
+            N[1] * (1 / (TDerivativeNorm / v)),
+            N[2] * (1 / (TDerivativeNorm / v)),
         ];
 
         const aCpta = [
@@ -119,7 +119,8 @@ export default class Curve {
             aTLength: Mathjs.norm(aT) / factor,
             aCpta: aCpta,
             aCptaLength: Mathjs.norm(aCpta) / factor,
-            k: k
+            k: k,
+            kLength: Mathjs.norm(k) / 2
         }
     }
 
