@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import Mathjs from "mathjs";
 import * as THREE_ORBIT_CONTROLS from "three-orbit-controls";
 const OrbitControls = THREE_ORBIT_CONTROLS(THREE);
 
@@ -82,22 +83,44 @@ export default class Chart {
         const geometry = new THREE.CircleGeometry( radius, 64 );
         geometry.vertices.shift();
 
-        const kAngle = Math.atan2(k[2], k[1]);
-        const TAngle = Math.atan2(T[2], T[1]);
-        const BAngle = Math.atan2(B[2], B[1]);
-        
-        const rotation1 = new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(B[0], B[1], B[2]).normalize(), kAngle);
-        const rotation2 = new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(k[0], k[1], k[2]).normalize(), TAngle);
-        const rotation3 = new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(T[0], T[1], T[2]).normalize(), BAngle);
-        
-        geometry.applyMatrix(rotation1);
-        //geometry.applyMatrix(rotation2);
-        //geometry.applyMatrix(rotation3);
+        const angleWithZAxis = k[2] > 0 ? 2 * Math.PI - (Math.PI / 2 - Math.acos(Math.abs(k[2] / Mathjs.norm(k)))) : (Math.PI / 2 - Math.acos(Math.abs(k[2] / Mathjs.norm(k))));
 
+        const angle = Math.PI + Math.atan2(k[1], k[0]);
+
+        //const angle2 = k[2] > 0 ? (Math.acos(Math.abs(Mathjs.dot([0, 0, 1], k) / Mathjs.norm(k)))) : (Math.PI - Math.acos(Math.abs(Mathjs.dot([0, 0, 1], k) / Mathjs.norm(k))));
+
+        const angle2 = Math.PI / 2 - Math.acos(Math.abs(Mathjs.dot([0, 0, 1], k) / Mathjs.norm(k)));
+
+        const angle3 = B[2] > 0 ? (Math.acos(Math.abs(Mathjs.dot([0, 0, 1], B) / Mathjs.norm(B)))) : (Math.PI - Math.acos(Math.abs(Mathjs.dot([0, 0, 1], B) / Mathjs.norm(B))));
+
+        //const rotation1 = new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(0, 0, 1), Math.PI / 4);
+        //const rotation2 = new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(B[0], B[1], B[2]).normalize(), k[2] > 0 ? angle2 : angle2 * -1);
+        //const rotation3 = new THREE.Matrix4().makeRotationAxis(new THREE.Vector3(k[0], k[1], k[2]).normalize(), angle3);
+        
+        const rotation1 = new THREE.Quaternion();
+        const rotation2 = new THREE.Quaternion();
+        const rotation3 = new THREE.Quaternion();
+        rotation1.setFromAxisAngle( new THREE.Vector3( 0, 0, 1 ), angle );
+        rotation2.setFromAxisAngle( new THREE.Vector3( 0, 1, 0 ), angle2 );
+        rotation3.setFromAxisAngle( new THREE.Vector3( 1, 0, 0 ), 0 );
+
+        console.log(angle / Math.PI);
+
+        //geometry.applyMatrix(rotation1);
+        // geometry.applyMatrix(rotation1);
+        // geometry.applyMatrix(rotation2);
+        //geometry.applyMatrix(rotation3);
+        
+        
         const material = new THREE.LineBasicMaterial( { color: 0xff3300, linewidth: 2 } );
         const circle = new THREE.LineLoop( geometry, material );
         circle.position.set(center[0], center[1], center[2]);
         circle.name = "circle";
+        
+        circle.applyQuaternion( rotation3 );
+        circle.applyQuaternion( rotation2 );
+        circle.applyQuaternion( rotation1 );
+        
         this.scene.add( circle );
     }
 

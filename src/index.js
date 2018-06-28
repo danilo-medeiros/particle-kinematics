@@ -127,8 +127,8 @@ const drawVectors = (t) => {
 		drawVector(chart1, dataset.r, dataset.aCpta, "aCpta", 0x008b80, dataset.aCptaLength);
 	} else {
 		drawVector(chart1, dataset.r, dataset.k, "k", 0x000000, dataset.kLength, 1);
+		drawVector(chart1, dataset.r, dataset.B, "B", 0x000000, 1, 1);
 		drawVector(chart1, dataset.r, dataset.T, "T", 0xff0055);
-		drawVector(chart1, dataset.r, dataset.B, "B", 0x009933);
 		drawCircle(dataset.kLength, [
 			dataset.r[0] + dataset.k[0] / 2, 
 			dataset.r[1] + dataset.k[1] / 2, 
@@ -138,15 +138,6 @@ const drawVectors = (t) => {
 	if (moveCameraInput.checked === true)
 		chart1.updateCamera([dataset.r[0] + 10, dataset.r[1] + 2, dataset.r[2] + 5], dataset.r);
 	
-}
-
-const normalize = (vector) => {
-	const vectorNorm = Math.sqrt(Math.pow(vector[0], 2) + Math.pow(vector[1], 2) + Math.pow(vector[2], 2));
-	return [
-		vector[0] / vectorNorm,
-		vector[1] / vectorNorm,
-		vector[2] / vectorNorm
-	]
 }
 
 const drawCircle = (radius, center, k, T, B) => {
