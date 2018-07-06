@@ -82,9 +82,9 @@ export default class Chart {
         const epsilon = 0.05;
         const material = new THREE.LineBasicMaterial( { color: 0xff3300, linewidth: 2 } );
         const center = [
-            r[0] + k[0] / 2,
-            r[1] + k[1] / 2,
-            r[2] + k[2] / 2
+            r[0] + k[0],
+            r[1] + k[1],
+            r[2] + k[2]
         ]
         for (let i = 0; i < 2 * Math.PI; i = i + epsilon) {
             const startPos = [

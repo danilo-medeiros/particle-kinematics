@@ -130,20 +130,22 @@ const drawVectors = (t) => {
 		drawVector(chart1, dataset.r, dataset.aT, "aT", 0xff00ff, dataset.aTLength);
 		drawVector(chart1, dataset.r, dataset.aCpta, "aCpta", 0x008b80, dataset.aCptaLength);
 	} else {
-		const finalPos = [ 
-			dataset.r[0] + dataset.k[0] / 2, 
-			dataset.r[1] + dataset.k[1] / 2, 
-			dataset.r[2] + dataset.k[2] / 2 
-		];
-		chart1.clear("k");
-		chart1.drawLine(chart1.defaultMaterial, dataset.r, finalPos, "k");
-		chart1.drawParticle(finalPos);
-		drawCircle(dataset.r, dataset.kLength, dataset.k, dataset.T, dataset.N);
-		cameraPosition = [
-			dataset.r[0] + 10,
-			dataset.r[1] + 10,
-			dataset.r[2] + 10
-		];
+		if (!isNaN(dataset.kLength)) {
+			const finalPos = [ 
+				dataset.r[0] + dataset.k[0], 
+				dataset.r[1] + dataset.k[1], 
+				dataset.r[2] + dataset.k[2] 
+			];
+			chart1.clear("k");
+			chart1.drawLine(chart1.defaultMaterial, dataset.r, finalPos, "k");
+			chart1.drawParticle(finalPos);
+			drawCircle(dataset.r, dataset.kLength * 2, dataset.k, dataset.T, dataset.N);
+			cameraPosition = [
+				dataset.r[0] + 10,
+				dataset.r[1] + 10,
+				dataset.r[2] + 10
+			];
+		}
 	}
 	if (moveCameraInput.checked === true)
 		chart1.updateCamera(cameraPosition, cameraFocus);
