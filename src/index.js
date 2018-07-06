@@ -47,7 +47,7 @@ document.getElementById("geometryLink").addEventListener("click", () => {
 	clearVectors();
 })
 
-window.addEventListener("resize", function (event) {
+window.addEventListener("resize", function () {
 	chart1.resize();
 })
 
@@ -94,6 +94,7 @@ const clearVectors = () => {
 	chart1.clear("aCpta");
 	chart1.clear("k");
 	chart1.clear("circle");
+	chart1.clear("tangent");
 }
 
 const drawGraph = () => {
@@ -115,7 +116,10 @@ const drawGraph = () => {
 }
 
 const drawVectors = (t) => {
+	chart1.clear("particle");
 	const dataset = curve.getDataset(t);
+	let cameraPosition = [dataset.r[0] + 10, dataset.r[1] + 2, dataset.r[2] + 5];
+	let cameraFocus = dataset.r;
 	chart1.drawParticle(dataset.r);
 	if (mode === "1") {
 		drawVector(chart1, dataset.r, dataset.T, "T", 0xff0055);
@@ -126,23 +130,29 @@ const drawVectors = (t) => {
 		drawVector(chart1, dataset.r, dataset.aT, "aT", 0xff00ff, dataset.aTLength);
 		drawVector(chart1, dataset.r, dataset.aCpta, "aCpta", 0x008b80, dataset.aCptaLength);
 	} else {
-		drawVector(chart1, dataset.r, dataset.k, "k", 0x000000, dataset.kLength, 1);
-		drawVector(chart1, dataset.r, dataset.B, "B", 0x000000, 1, 1);
-		drawVector(chart1, dataset.r, dataset.T, "T", 0xff0055);
-		drawCircle(dataset.kLength, [
+		const finalPos = [ 
 			dataset.r[0] + dataset.k[0] / 2, 
 			dataset.r[1] + dataset.k[1] / 2, 
-			dataset.r[2] + dataset.k[2] / 2
-		], dataset.k, dataset.T, dataset.B);
+			dataset.r[2] + dataset.k[2] / 2 
+		];
+		chart1.clear("k");
+		chart1.drawLine(chart1.defaultMaterial, dataset.r, finalPos, "k");
+		chart1.drawParticle(finalPos);
+		drawCircle(dataset.r, dataset.kLength, dataset.k, dataset.T, dataset.N);
+		cameraPosition = [
+			dataset.r[0] + 10,
+			dataset.r[1] + 10,
+			dataset.r[2] + 10
+		];
 	}
 	if (moveCameraInput.checked === true)
-		chart1.updateCamera([dataset.r[0] + 10, dataset.r[1] + 2, dataset.r[2] + 5], dataset.r);
+		chart1.updateCamera(cameraPosition, cameraFocus);
 	
 }
 
-const drawCircle = (radius, center, k, T, B) => {
+const drawCircle = (r, kLength, k, T, N) => {
 	chart1.clear("circle");
-	chart1.drawCircle(radius, center, k, T, B);
+	chart1.drawCircle(r, kLength, k, T, N);
 }
 
 const drawVector = (chart, i, f, name, color, length, lineWidth) => {
