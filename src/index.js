@@ -32,6 +32,9 @@ document.getElementById("mechanicsLink").addEventListener("click", () => {
 	document.getElementById("descriptionGeometrics").classList.add("hidden");
 	mode = "1";
 	clearVectors();
+	drawVectors(parseFloat(tSlider.value));
+	document.getElementById("mainDiv").scrollIntoView();
+
 })
 
 document.getElementById("cinematicsLink").addEventListener("click", () => {
@@ -40,6 +43,8 @@ document.getElementById("cinematicsLink").addEventListener("click", () => {
 	document.getElementById("descriptionGeometrics").classList.add("hidden");
 	mode = "2";
 	clearVectors();
+	drawVectors(parseFloat(tSlider.value));
+	document.getElementById("mainDiv").scrollIntoView();
 });
 
 document.getElementById("geometryLink").addEventListener("click", () => {
@@ -48,6 +53,8 @@ document.getElementById("geometryLink").addEventListener("click", () => {
 	document.getElementById("descriptionCinematics").classList.add("hidden");
 	mode = "3";
 	clearVectors();
+	drawVectors(parseFloat(tSlider.value));
+	document.getElementById("mainDiv").scrollIntoView();
 })
 
 window.addEventListener("resize", function () {
@@ -70,7 +77,8 @@ tInput.addEventListener("input", function () {
 });
 
 const animate = (counter) => {
-	counter += 0.01;
+	counter += 0.05;
+
 	drawVectors(counter);
 	tInput.value = counter;
 	tSlider.value = counter;
@@ -81,7 +89,7 @@ const animate = (counter) => {
 		}
 		setTimeout(() => {
 			animate(counter);
-		}, 1);	
+		}, 80);	
 	}
 
 	
@@ -102,7 +110,6 @@ const clearVectors = () => {
 
 const drawGraph = () => {
 	chart1.clear("function");
-	chart2.clear();
 	clearVectors();
 
 	const minDomain = parseFloat(minDomainInput.value);
@@ -112,25 +119,21 @@ const drawGraph = () => {
 	
 	const epsilon = 0.05;
 	const kValues = [];
-	let maxK = 0;
+	const labels = [];
+	
+	for (let t = minDomain; t <= maxDomain; t = Math.round((t + epsilon) * 100) / 100) {
 
-	for (let t = minDomain; t < maxDomain; t = t + epsilon) {
 		let initial = curve.getDataset(t);
 		let final = curve.getDataset(t + epsilon);
+
 		chart1.drawLine(chart1.defaultMaterial, initial.r, final.r, "function");
-		kValues.push({t: t, k: initial.kLength});
-		if (maxK < initial.kLength && initial.kLength < 10)
-			maxK = initial.kLength;
+		labels.push(t.toFixed(2).toString());
+		kValues.push({x: t, y: initial.kLength.toFixed(3)});
 	}
 
-	chart2.scale = 250 / maxK;
-	chart2.init();
+	chart2.draw(labels, kValues);
 
-	for (let i = 0; i < kValues.length - 1; i++) {
-		chart2.startDraw("red", 3);
-		chart2.drawLine([kValues[i].t, kValues[i].k], [kValues[i + 1].t, kValues[i + 1].k]);
-		chart2.endDraw();
-	}
+	drawVectors(tSlider.value);
 }
 
 const drawVectors = (t) => {
@@ -181,8 +184,6 @@ const drawVector = (chart, i, f, name, color, length, lineWidth) => {
 }
 
 const initialize = () => {
-	/* submitButton.innerHTML = "Carregando...";
-	submitButton.setAttribute("disabled", "true"); */
 
 	tControls.classList.remove("hidden");
 	tSlider.setAttribute("max", maxDomainInput.value);
@@ -190,11 +191,7 @@ const initialize = () => {
 	tSlider.value = tInput.value = (parseFloat(minDomainInput.value) + parseFloat(maxDomainInput.value)) / 2;
 
 	drawGraph();
-
-	/* drawGraph().then(() => {
-		submitButton.innerHTML = "Gerar gráfico";
-		submitButton.removeAttribute("disabled");
-	}); */
+	document.getElementById("mainDiv").scrollIntoView();
 }
 
 initialize();

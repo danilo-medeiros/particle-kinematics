@@ -86,7 +86,7 @@ export default class Chart {
             r[1] + k[1],
             r[2] + k[2]
         ];
-        console.log(kNorm);
+        
         for (let i = 0; i < 2 * Math.PI; i = i + epsilon) {
             const startPos = [
                 center[0] + kNorm * Math.cos(i) * N[0] + kNorm * Math.sin(i) * T[0],
