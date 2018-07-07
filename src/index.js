@@ -1,5 +1,6 @@
 import Chart from "./chart";
 import Curve from "./curve";
+import ChartCurvature from "./chart-curvature";
 
 const minDomainInput = document.getElementById("minDomain");
 const maxDomainInput = document.getElementById("maxDomain");
@@ -16,6 +17,8 @@ let mode = "1";
 let chart1 = new Chart({
 	targetDiv: document.getElementById("firstGraphDiv")
 });
+
+let chart2 = new ChartCurvature(document.getElementById("curvatureCanvas"));
 
 let curve;
 
@@ -99,19 +102,34 @@ const clearVectors = () => {
 
 const drawGraph = () => {
 	chart1.clear("function");
+	chart2.clear();
 	clearVectors();
 
-	let minDomain = parseFloat(minDomainInput.value);
-	let maxDomain = parseFloat(maxDomainInput.value);
+	const minDomain = parseFloat(minDomainInput.value);
+	const maxDomain = parseFloat(maxDomainInput.value);
 
 	curve = new Curve(fxInput.value, fyInput.value, fzInput.value);
 	
-	let epsilon = 0.05;
-	
+	const epsilon = 0.05;
+	const kValues = [];
+	let maxK = 0;
+
 	for (let t = minDomain; t < maxDomain; t = t + epsilon) {
-		let pointTI = curve.r(t);
-		let pointTF = curve.r(t + epsilon);
-		chart1.drawLine(chart1.defaultMaterial, pointTI, pointTF, "function");
+		let initial = curve.getDataset(t);
+		let final = curve.getDataset(t + epsilon);
+		chart1.drawLine(chart1.defaultMaterial, initial.r, final.r, "function");
+		kValues.push({t: t, k: initial.kLength});
+		if (maxK < initial.kLength && initial.kLength < 10)
+			maxK = initial.kLength;
+	}
+
+	chart2.scale = 250 / maxK;
+	chart2.init();
+
+	for (let i = 0; i < kValues.length - 1; i++) {
+		chart2.startDraw("red", 3);
+		chart2.drawLine([kValues[i].t, kValues[i].k], [kValues[i + 1].t, kValues[i + 1].k]);
+		chart2.endDraw();
 	}
 }
 

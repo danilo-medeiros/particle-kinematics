@@ -22,14 +22,6 @@ export default class Curve {
 
     }
 
-    r(t) {
-        return [
-            this._r[0].eval({t: t}),
-            this._r[1].eval({t: t}),
-            this._r[2].eval({t: t})
-        ]
-    }
-
     getDataset(t) {
 
         const delta = 0.0001;

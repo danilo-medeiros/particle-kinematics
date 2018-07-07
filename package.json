@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "mathjs": "^4.4.2",
+    "plotly": "^1.0.6",
     "three": "^0.93.0",
     "three-orbit-controls": "^82.1.0"
   }

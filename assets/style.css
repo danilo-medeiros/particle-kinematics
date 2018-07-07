@@ -91,5 +91,16 @@
     border: 1px solid #000;
 }
 
+.curvature-canvas-container {
+    border: 1px solid #CCC;
+    margin: 10px auto;
+    text-align: center;
+}
+
+#curvatureCanvas {
+    width: 800px;
+    height: 150px;
+}
+
 
 

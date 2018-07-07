@@ -79,13 +79,14 @@ export default class Chart {
     }
 
     drawCircle(r, kNorm, k, T, N) {
-        const epsilon = 0.05;
+        const epsilon = kNorm > 5 ? 0.02 : 0.05;
         const material = new THREE.LineBasicMaterial( { color: 0xff3300, linewidth: 2 } );
         const center = [
             r[0] + k[0],
             r[1] + k[1],
             r[2] + k[2]
-        ]
+        ];
+        console.log(kNorm);
         for (let i = 0; i < 2 * Math.PI; i = i + epsilon) {
             const startPos = [
                 center[0] + kNorm * Math.cos(i) * N[0] + kNorm * Math.sin(i) * T[0],
