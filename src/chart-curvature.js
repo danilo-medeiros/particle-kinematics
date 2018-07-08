@@ -6,9 +6,6 @@ export default class ChartCurvature {
         this.target = target;
         this.chart = new Chart(this.target.getContext("2d"), {
             type: 'line',
-            title: {
-                text: "Curvatura e torção"
-            },
             options: {
                 elements: {
                     point: {

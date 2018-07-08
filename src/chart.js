@@ -7,7 +7,7 @@ export default class Chart {
 
     constructor(config) {
         this.config = {
-            size: 15,
+            size: 30,
             scale: 1
         };
         this.init(config);

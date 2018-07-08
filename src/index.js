@@ -126,14 +126,15 @@ const drawGraph = () => {
 
 	const labels = [];
 	const datasets = [{
-		label: 'k(t)',
+		label: 'Curvatura',
 		data: [],
 		borderColor: "rgba(75, 192, 192, 1)",
 		fill: false
-	},{
-		label: 'τ(t)',
+	},
+	{
+		label: 'Torção',
 		data: [],
-		borderColor: "rgba(255, 0, 0, 1)",
+		borderColor: "rgba(5, 223, 5, 1)",
 		fill: false
 	}];
 	
