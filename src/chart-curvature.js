@@ -6,36 +6,41 @@ export default class ChartCurvature {
         this.target = target;
         this.chart = new Chart(this.target.getContext("2d"), {
             type: 'line',
+            title: {
+                text: "Curvatura e torção"
+            },
             options: {
                 elements: {
-                    line: {
-                        capBezierPoints: false
-                    },
                     point: {
                         radius: 0,
-                        hitRadius: 10, hoverRadius: 10
+                        hitRadius: 10, 
+                        hoverRadius: 10
+                    }, line: {
+                        tension: 1
                     }
                 },
                 animation: {
-                    duration: 0, // general animation time
+                    duration: 0
+                },
+                scales:
+                {
+                    xAxes: [{
+                        display: false
+                    }]
                 },
                 hover: {
-                    animationDuration: 0, // duration of animations when hovering an item
+                    animationDuration: 0
                 },
-                responsiveAnimationDuration: 0, // animation duration after a resize
+                responsiveAnimationDuration: 0
             }
         });
     }
 
-    draw(labels, values) {
+    draw(labels, datasets) {
+        
         this.chart.data = {
             labels: labels,
-            datasets: [{
-                label: 'k(t)',
-                data: values,
-                borderColor: "rgba(75, 192, 192, 1)",
-                fill: false
-            }]
+            datasets: datasets
         }
         this.chart.update();
     }

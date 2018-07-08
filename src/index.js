@@ -118,8 +118,24 @@ const drawGraph = () => {
 	curve = new Curve(fxInput.value, fyInput.value, fzInput.value);
 	
 	const epsilon = 0.05;
-	const kValues = [];
+
+	const kDataset = {
+		labels: [],
+		values: []
+	}
+
 	const labels = [];
+	const datasets = [{
+		label: 'k(t)',
+		data: [],
+		borderColor: "rgba(75, 192, 192, 1)",
+		fill: false
+	},{
+		label: 'τ(t)',
+		data: [],
+		borderColor: "rgba(255, 0, 0, 1)",
+		fill: false
+	}];
 	
 	for (let t = minDomain; t <= maxDomain; t = Math.round((t + epsilon) * 100) / 100) {
 
@@ -127,12 +143,11 @@ const drawGraph = () => {
 		let final = curve.getDataset(t + epsilon);
 
 		chart1.drawLine(chart1.defaultMaterial, initial.r, final.r, "function");
-		labels.push(t.toFixed(2).toString());
-		kValues.push({x: t, y: initial.kLength.toFixed(3)});
+		labels.push(t.toString());
+		datasets[0].data.push(Math.round(initial.k * 100) / 100);
+		datasets[1].data.push(Math.round(initial.bent * 100) / 100);
 	}
-
-	chart2.draw(labels, kValues);
-
+	chart2.draw(labels, datasets);
 	drawVectors(tSlider.value);
 }
 
@@ -151,31 +166,25 @@ const drawVectors = (t) => {
 		drawVector(chart1, dataset.r, dataset.aT, "aT", 0xff00ff, dataset.aTLength);
 		drawVector(chart1, dataset.r, dataset.aCpta, "aCpta", 0x008b80, dataset.aCptaLength);
 	} else {
-		if (!isNaN(dataset.kLength)) {
-			const finalPos = [ 
-				dataset.r[0] + dataset.k[0], 
-				dataset.r[1] + dataset.k[1], 
-				dataset.r[2] + dataset.k[2] 
-			];
-			chart1.clear("k");
-			chart1.drawLine(chart1.defaultMaterial, dataset.r, finalPos, "k");
-			chart1.drawParticle(finalPos);
-			drawCircle(dataset.r, dataset.kLength * 2, dataset.k, dataset.T, dataset.N);
-			cameraPosition = [
-				dataset.r[0] + 10,
-				dataset.r[1] + 10,
-				dataset.r[2] + 10
-			];
+		chart1.clear("k");
+		chart1.clear("circle");
+		const radius = 1 / dataset.k;
+		if (radius !== Infinity && !isNaN(radius)) {
+			const center = [
+				dataset.r[0] + dataset.N[0] * radius,
+				dataset.r[1] + dataset.N[1] * radius,
+				dataset.r[2] + dataset.N[2] * radius
+			]
+			if (!isNaN(radius)) {
+				chart1.drawLine(chart1.defaultMaterial, dataset.r, center, "k");
+				chart1.drawParticle(center);
+				chart1.drawCircle(radius, center, dataset.T, dataset.N);	
+			}
 		}
 	}
 	if (moveCameraInput.checked === true)
 		chart1.updateCamera(cameraPosition, cameraFocus);
 	
-}
-
-const drawCircle = (r, kLength, k, T, N) => {
-	chart1.clear("circle");
-	chart1.drawCircle(r, kLength, k, T, N);
 }
 
 const drawVector = (chart, i, f, name, color, length, lineWidth) => {

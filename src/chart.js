@@ -78,25 +78,20 @@ export default class Chart {
         this.scene.add(arrow);
     }
 
-    drawCircle(r, kNorm, k, T, N) {
-        const epsilon = kNorm > 5 ? 0.02 : 0.05;
+    drawCircle(radius, center, T, N) {
+        const epsilon = radius > 5 ? 0.02 : 0.05;
         const material = new THREE.LineBasicMaterial( { color: 0xff3300, linewidth: 2 } );
-        const center = [
-            r[0] + k[0],
-            r[1] + k[1],
-            r[2] + k[2]
-        ];
         
         for (let i = 0; i < 2 * Math.PI; i = i + epsilon) {
             const startPos = [
-                center[0] + kNorm * Math.cos(i) * N[0] + kNorm * Math.sin(i) * T[0],
-                center[1] + kNorm * Math.cos(i) * N[1] + kNorm * Math.sin(i) * T[1],
-                center[2] + kNorm * Math.cos(i) * N[2] + kNorm * Math.sin(i) * T[2]
+                center[0] + radius * Math.cos(i) * N[0] + radius * Math.sin(i) * T[0],
+                center[1] + radius * Math.cos(i) * N[1] + radius * Math.sin(i) * T[1],
+                center[2] + radius * Math.cos(i) * N[2] + radius * Math.sin(i) * T[2]
             ];
             const finalPos = [
-                center[0] + kNorm * Math.cos(i + epsilon) * N[0] + kNorm * Math.sin(i + epsilon) * T[0],
-                center[1] + kNorm * Math.cos(i + epsilon) * N[1] + kNorm * Math.sin(i + epsilon) * T[1],
-                center[2] + kNorm * Math.cos(i + epsilon) * N[2] + kNorm * Math.sin(i + epsilon) * T[2]
+                center[0] + radius * Math.cos(i + epsilon) * N[0] + radius * Math.sin(i + epsilon) * T[0],
+                center[1] + radius * Math.cos(i + epsilon) * N[1] + radius * Math.sin(i + epsilon) * T[1],
+                center[2] + radius * Math.cos(i + epsilon) * N[2] + radius * Math.sin(i + epsilon) * T[2]
             ];
             this.drawLine(material, startPos, finalPos, "circle");
         }

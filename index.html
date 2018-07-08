@@ -61,7 +61,7 @@
                   <span class="input-group-addon">
                     \(x(t) =\)
                   </span>
-                  <input type="text" value="sin(t)" autocomplete="off" id="fx" class="form-control">
+                  <input type="text" value="2cos(t)" autocomplete="off" id="fx" class="form-control">
                 </div>
               </div>
               <div class='form-group'>
@@ -69,7 +69,7 @@
                   <span class="input-group-addon">
                     \(y(t) =\)
                   </span>
-                  <input type="text" value="2cos(t)" autocomplete="off" id="fy" class="form-control">
+                  <input type="text" value="2sin(t)" autocomplete="off" id="fy" class="form-control">
                 </div>
               </div>
               <div class='form-group'>
@@ -160,9 +160,13 @@
                   </div>
                   <div class="description">
                     <div>
-                      <div>
-                        \( \text{Curvatura: } k(t) = { |\overrightarrow{V}(t) \times \overrightarrow{a}(t) | \over v(t)^3 } \)
-                      </div>
+                      \( \text{Curvatura: } k(t) = { |\overrightarrow{V}(t) \times \overrightarrow{a}(t) | \over v(t)^3 } \)
+                    </div>
+                    <div>
+                      \( \text{Raio: } {1 \over k(t)} \)
+                    </div>
+                    <div>
+                      \( \text{Torção: } τ(t) = { -\overrightarrow{N} \cdot { d\overrightarrow{B}(t) \over dt } } \)
                     </div>
                   </div>
                 </div>
