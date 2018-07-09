@@ -12,6 +12,31 @@ const tSlider = document.getElementById("tSlider");
 const tControls = document.getElementById("tControls");
 const moveCameraInput = document.getElementById("moveCamera");
 const animationControl = document.getElementById("animate");
+const functionSelect = document.getElementById("functionSelect");
+
+const functions = {
+	helice: [
+		"cos(t)",
+		"sin(t)",
+		"t/2"
+	],
+	circunferencia: [
+		"2cos(t)",
+		"2sin(t)",
+		"0"
+	],
+	elipse: [
+		"2cos(t)",
+		"sin(t)",
+		"0"
+	],
+	reta: [
+		"-t",
+		"t",
+		"t"
+	]
+}
+
 let mode = "1";
 
 let chart1 = new Chart({
@@ -24,6 +49,18 @@ let curve;
 
 animationControl.addEventListener("input", () => {
 	animate(parseFloat(tInput.value));
+})
+
+
+
+functionSelect.addEventListener("input", () => {
+
+	const selectedFunction = functionSelect.value;
+
+	fxInput.value = functions[selectedFunction][0];
+	fyInput.value = functions[selectedFunction][1];
+	fzInput.value = functions[selectedFunction][2];
+
 })
 
 document.getElementById("mechanicsLink").addEventListener("click", () => {
@@ -148,8 +185,8 @@ const drawGraph = () => {
 		datasets[0].data.push(Math.round(initial.k * 100) / 100);
 		datasets[1].data.push(Math.round(initial.bent * 100) / 100);
 	}
+	
 	chart2.draw(labels, datasets);
-	drawVectors(tSlider.value);
 }
 
 const drawVectors = (t) => {
