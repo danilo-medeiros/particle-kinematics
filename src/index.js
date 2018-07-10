@@ -13,6 +13,7 @@ const tControls = document.getElementById("tControls");
 const moveCameraInput = document.getElementById("moveCamera");
 const animationControl = document.getElementById("animate");
 const functionSelect = document.getElementById("functionSelect");
+let animation;
 
 const functions = {
 	helice: [
@@ -34,6 +35,11 @@ const functions = {
 		"-t",
 		"t",
 		"t"
+	],
+	cicloide: [
+		"t-sin(t)",
+		"1-cos(t)",
+		"0"
 	]
 }
 
@@ -113,23 +119,27 @@ tInput.addEventListener("input", function () {
 	drawVectors(parseFloat(tInput.value));
 });
 
-const animate = (counter) => {
-	counter += 0.05;
+const animate = (value) => {
+	let counter = value;
+	const maxValue = parseFloat(maxDomainInput.value);
+	const minValue = parseFloat(minDomainInput.value);
 
-	drawVectors(counter);
-	tInput.value = counter;
-	tSlider.value = counter;
-	
 	if (animationControl.checked === true) {
-		if (counter >= parseFloat(maxDomainInput.value)) {
-			counter = parseFloat(minDomainInput.value);
-		}
-		setTimeout(() => {
-			animate(counter);
-		}, 80);	
+		animation = setInterval(() => {
+			if (counter >= maxValue) {
+				counter = minValue;
+			} else {
+				counter = Math.round((counter + 0.1) * 100) / 100;
+			}
+			tInput.value = counter;
+			tSlider.value = counter;
+			drawVectors(counter);
+		}, 100);
+		
+	} else {
+		clearInterval(animation);
 	}
 
-	
 }
 
 const clearVectors = () => {

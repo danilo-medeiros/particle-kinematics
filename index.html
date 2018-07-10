@@ -16,7 +16,7 @@
 
 <body>
   <div class='container'>
-    <h3>Mecânica de uma partícula no \(R^3\)</h3>
+    <h3>Cinemática de uma partícula no \(R^3\)</h3>
 
     <div class='row'>
       <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
@@ -39,19 +39,18 @@
       </div>
       <div class='col-md-4 col-xs-12 col-lg-3 col-sm-12'>
         <div class="panel panel-default">
-          <div class="panel-heading">
-            <div class="form-group form-inline" style="margin-bottom: 0px">
-              <b>Função:</b>
-              <select class="form-control" name="" id="functionSelect">
-                <option value="circunferencia">Circunferência</option>
-                <option value="helice">Hélice</option>
-                <option value="elipse">Elipse</option>
-                <option value="reta">Reta</option>
-              </select>
-            </div>
-          </div>
           <div class="panel-body">
             <form id="mainForm" class="text-center" autocomplete="off">
+              <div class="form-group form-inline">
+                <b>Função:</b>
+                <select class="form-control" name="" id="functionSelect">
+                  <option value="circunferencia">Circunferência</option>
+                  <option value="helice">Hélice</option>
+                  <option value="elipse">Elipse</option>
+                  <option value="reta">Reta</option>
+                  <option value="cicloide">Ciclóide</option>
+                </select>
+              </div>
               <div class="form-group">
                 <div class="row">
                   <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
@@ -92,11 +91,11 @@
                 <button type="submit" id="submit" class='btn btn-primary btn-block'>Gerar gráfico</button>
               </div>
               <div class="panel panel-default hidden" id="tControls">
-                <div class="panel-heading form-group form-inline">
-                  <b>Avaliar em: </b> \(t = \)
-                  <input type="number" id="tValue" step="0.001" class="small-input form-control">
-                </div>
                 <div class="panel-body">
+                  <div class="form-group form-inline">
+                    <b>Avaliar em: </b> \(t = \)
+                    <input type="number" id="tValue" step="0.001" class="small-input form-control">
+                  </div>
                   <div class="form-group">
                     <input type="range" id="tSlider" step="0.001">
                   </div>
@@ -151,7 +150,7 @@
                   <div>
                     <div class="vector-color pink"></div>
                     \( \text{Aceleração tangencial: } \) \( \overrightarrow{a}_T(t) = { dv(t) \over dt } \overrightarrow{T} \)
-                    <span style="margin: 0px 10px">\(\text{ou}\)</span> \( \overrightarrow{a}_T(t) = \overrightarrow{a}(t) \overrightarrow{T}\)
+                    <span style="margin: 0px 10px">\(\text{ou}\)</span> \( a_T(t) = \overrightarrow{a}(t) \cdot \overrightarrow{T}\)
                   </div>
                   <div>
                     <div class="vector-color purple"></div>
