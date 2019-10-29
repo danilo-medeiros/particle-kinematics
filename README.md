@@ -5,5 +5,6 @@
 
 ## How to run this project
 * Clone it;
+* `npm install`;
 * `npm run build`;
 * `npm run start:dev`;
