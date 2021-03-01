@@ -20,7 +20,7 @@
   "dependencies": {
     "chart.js": "^2.7.2",
     "mathjs": "^4.4.2",
-    "three": "^0.93.0",
+    "three": "^0.125.0",
     "three-orbit-controls": "^82.1.0"
   }
 }
