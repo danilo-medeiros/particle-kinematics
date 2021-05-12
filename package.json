@@ -18,7 +18,7 @@
     "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
-    "chart.js": "^2.7.2",
+    "chart.js": "^2.9.4",
     "mathjs": "^4.4.2",
     "three": "^0.93.0",
     "three-orbit-controls": "^82.1.0"
